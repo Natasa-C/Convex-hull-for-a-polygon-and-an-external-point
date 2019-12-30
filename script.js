@@ -1,8 +1,9 @@
 window.onload = function() {
-    const canvas = document.querySelector("#panza");
+    const sideNavWidth = 257;
+    const headerHeight = 104;
+
+    const canvas = document.querySelector("#drawingCanvas");
     const draw = document.querySelector("#draw");
-    // const circleText;
-    // const lineText;
     const speed = 250;
     const r = 5;
     const cx = 5;
@@ -12,8 +13,8 @@ window.onload = function() {
     var interval;
 
     canvas.onclick = function(event) {
-        let x = event.clientX;
-        let y = event.clientY;
+        let x = event.clientX - sideNavWidth;
+        let y = event.clientY - headerHeight;
 
         points.push(new Point(x, y));
 
@@ -26,11 +27,6 @@ window.onload = function() {
     }
 
     draw.onclick = async function() {
-        let collection = document.querySelector("#panza").children;
-        for (let i = 0; i < collection.length - 1; i++) {
-            canvas.removeChild(collection[i]);
-        }
-
         for (let i = 0; i < points.length - 1; i++) {
             await timeout(speed);
             await drawLine(canvas, points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
