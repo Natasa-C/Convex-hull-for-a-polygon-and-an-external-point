@@ -170,6 +170,49 @@ window.onload = function() {
             inDrawingSession = false;
         }
     }
+
+    // button details
+    const newSessionButton = document.querySelector("#newDrawingSession");
+    const addPointsButton = document.querySelector("#addPoints");
+    const addExtPointButton = document.querySelector("#addExternalPoint");
+    const drawPolygonButton = document.querySelector("#drawPolygon");
+
+    const newSessionDetails  = document.querySelector("#newDrawingSessionDetails");
+    const addPointsDetails  = document.querySelector("#addPointsDetails");
+    const addExtPointDetails  = document.querySelector("#addExtPointDetails");
+    const drawPolygonDetails  = document.querySelector("#drawPolygonDetails");
+
+    newSessionButton.onmouseover = function() {
+        newSessionDetails.style.display = "block";
+    }
+
+    newSessionButton.onmouseout = function() {
+        newSessionDetails.style.display = "none";
+    }
+
+    addPointsButton.onmouseover = function() {
+        addPointsDetails.style.display = "block";
+    }
+
+    addPointsButton.onmouseout = function() {
+        addPointsDetails.style.display = "none";
+    }
+
+    addExtPointButton.onmouseover = function() {
+        addExtPointDetails.style.display = "block";
+    }
+
+    addExtPointButton.onmouseout = function() {
+        addExtPointDetails.style.display = "none";
+    }   
+    
+    drawPolygonButton.onmouseover = function() {
+        drawPolygonDetails.style.display = "block";
+    }
+
+    drawPolygonButton.onmouseout = function() {
+        drawPolygonDetails.style.display = "none";
+    }
 }
 
 function Point(x, y) {
