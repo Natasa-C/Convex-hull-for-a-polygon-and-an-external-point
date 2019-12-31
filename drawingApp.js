@@ -81,8 +81,8 @@ window.onload = function() {
             var array_length = points.length;
             var superior_margin, inferior_margin;
             var index, new_array = [];
-            let point_speed = 100;
-            let line_speed = 500;
+            let point_speed = 250;
+            let line_speed = 300;
 
             // sort points by the polar angle
             // ..........
@@ -140,8 +140,26 @@ window.onload = function() {
             // the inferior_margin: the point for which every other point in the points array is situated to the right of the [external_point, inferior_margin] right(dreapta)
             inferior_margin = position_of_closest_point;
             while (await orientation_test(external_point, points[inferior_margin], points[(array_length + inferior_margin - 1) % array_length]) <= 0) {
+                let line1 = document.querySelector(`#line_${-1}_${inferior_margin} line`);
+                let line2 = document.querySelector(`#line_${(array_length + inferior_margin - 1) % array_length}_${inferior_margin} line`);
+
+                line1.style.stroke = "red";
+                line2.style.stroke = "red";
+
+                await drawLine(canvas, external_point.x, external_point.y, points[(array_length + inferior_margin - 1) % array_length].x, points[(array_length + inferior_margin - 1) % array_length].y, `${-1}_${(array_length + inferior_margin - 1) % array_length}`);
+                await timeout(line_speed);
+
+                canvas.removeChild(document.querySelector(`#line_${(array_length + inferior_margin - 1) % array_length}_${inferior_margin}`));
+
+
+                canvas.removeChild(document.querySelector(`#line_${-1}_${inferior_margin}`));
+                await timeout(line_speed);
+
+
                 inferior_margin = (array_length + inferior_margin - 1) % array_length;
             }
+
+            canvas.removeChild(document.querySelector(`#line_${-1}_${position_of_closest_point}`));
 
             // form the new array with the external point, superior_margin point, inferior_margin point 
             // and the points situated between superior_margin point and inferior_margin point in counterclockwise direction
@@ -154,19 +172,6 @@ window.onload = function() {
             }
             new_array.push(external_point)
 
-            // await drawLine(canvas, points[inferior_margin].x, points[inferior_margin].y, external_point.x, external_point.y);
-            // await timeout(line_speed);
-            // await drawLine(canvas, external_point.x, external_point.y, points[superior_margin].x, points[superior_margin].y);
-            // await timeout(line_speed);
-
-            // index = inferior_margin
-            // while ((index + 1) % array_length != superior_margin) {
-            //     let line = document.querySelector(`#line_${index}_${(index + 1) % array_length}`);
-            //     canvas.removeChild(line);
-            //     await timeout(500);
-            //     index = (index + 1) % array_length;
-            // }
-
             inDrawingSession = false;
         }
     }
@@ -177,10 +182,10 @@ window.onload = function() {
     const addExtPointButton = document.querySelector("#addExternalPoint");
     const drawPolygonButton = document.querySelector("#drawPolygon");
 
-    const newSessionDetails  = document.querySelector("#newDrawingSessionDetails");
-    const addPointsDetails  = document.querySelector("#addPointsDetails");
-    const addExtPointDetails  = document.querySelector("#addExtPointDetails");
-    const drawPolygonDetails  = document.querySelector("#drawPolygonDetails");
+    const newSessionDetails = document.querySelector("#newDrawingSessionDetails");
+    const addPointsDetails = document.querySelector("#addPointsDetails");
+    const addExtPointDetails = document.querySelector("#addExtPointDetails");
+    const drawPolygonDetails = document.querySelector("#drawPolygonDetails");
 
     newSessionButton.onmouseover = function() {
         newSessionDetails.style.display = "block";
@@ -204,8 +209,8 @@ window.onload = function() {
 
     addExtPointButton.onmouseout = function() {
         addExtPointDetails.style.display = "none";
-    }   
-    
+    }
+
     drawPolygonButton.onmouseover = function() {
         drawPolygonDetails.style.display = "block";
     }
