@@ -232,3 +232,12 @@ img {
     stroke: black;
     stroke-width: 1.2px;
 }
+
+.details {
+    background-color: #4e5884;
+    color: white;
+    width: 95px;
+    height: 25px;
+    padding: 8px;
+    display: none;
+}
