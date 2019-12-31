@@ -150,11 +150,8 @@ window.onload = function() {
                 await timeout(line_speed);
 
                 canvas.removeChild(document.querySelector(`#line_${(array_length + inferior_margin - 1) % array_length}_${inferior_margin}`));
-
-
                 canvas.removeChild(document.querySelector(`#line_${-1}_${inferior_margin}`));
                 await timeout(line_speed);
-
 
                 inferior_margin = (array_length + inferior_margin - 1) % array_length;
             }
