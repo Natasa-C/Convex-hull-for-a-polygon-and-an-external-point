@@ -1,4 +1,4 @@
-window.onload = function () {
+window.onload = function() {
     const canvas = document.querySelector("#drawingCanvas");
     const newDrawingSession = document.querySelector("#newDrawingSession");
     const addPoints = document.querySelector("#addPoints");
@@ -13,32 +13,34 @@ window.onload = function () {
     const cy = 5;
     let addPoint = false;
     let addExtPoint = false;
-    let points = [];
 
-    newDrawingSession.onclick = function () {
+    var points = [];
+    var external_point;
+
+    newDrawingSession.onclick = function() {
         clearCanvas(canvas);
         points.length = 0;
         addPoint = true;
         addExtPoint = true;
     }
 
-    canvas.onclick = function (event) {
+    canvas.onclick = function(event) {
         let x = event.clientX - sideNavWidth;
         let y = event.clientY - headerHeight;
 
         if (addPoint) {
             points.push(new Point(x, y));
             drawPoint(canvas, x, y, r, cx, cy, "black");
-        }
-        else if (addExtPoint) {
+        } else if (addExtPoint) {
             let x = event.clientX - sideNavWidth;
             let y = event.clientY - headerHeight;
+            external_point = new Point(x, y);
             drawPoint(canvas, x, y, r, cx, cy, "red");
             addExtPoint = false;
         }
     }
 
-    drawPolygon.onclick = async function () {
+    drawPolygon.onclick = async function() {
         for (let i = 0; i < points.length - 1; i++) {
             await timeout(speed);
             await drawLine(canvas, points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
@@ -50,7 +52,7 @@ window.onload = function () {
         addPoint = false;
     }
 
-    addExternalPoint.onclick = function () {
+    addExternalPoint.onclick = function() {
         addPoint = false;
     }
 }
