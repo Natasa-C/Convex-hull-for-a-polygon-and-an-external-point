@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
     const canvas = document.querySelector("#drawingCanvas");
     const newDrawingSession = document.querySelector("#newDrawingSession");
     const addPoints = document.querySelector("#addPoints");
@@ -14,18 +14,27 @@ window.onload = function() {
     const cy = 5;
     let addPoint = false;
     let addExtPoint = false;
+    let extPointAdded = false;
+    let polygonDrawn = false;
+    let inDrawingSession = false;
 
     var points = [];
     var external_point;
 
-    newDrawingSession.onclick = function() {
+    newDrawingSession.onclick = function () {
         clearCanvas(canvas);
         points.length = 0;
-        addPoint = true;
-        addExtPoint = true;
+        inDrawingSession = true;
+        polygonDrawn = false;
+        extPointAdded = false;
     }
 
-    canvas.onclick = function(event) {
+    addPoints.onclick = function () {
+        if (inDrawingSession && !polygonDrawn)
+            addPoint = true;
+    }
+
+    canvas.onclick = function (event) {
         let x = event.clientX - sideNavWidth;
         let y = event.clientY - headerHeight;
 
@@ -37,27 +46,34 @@ window.onload = function() {
             let y = event.clientY - headerHeight;
             external_point = new Point(x, y);
             drawPoint(canvas, x, y, r, cx, cy, "red");
+            extPointAdded = true;
             addExtPoint = false;
         }
     }
 
-    drawPolygon.onclick = async function() {
-        for (let i = 0; i < points.length - 1; i++) {
+    drawPolygon.onclick = async function () {
+        if (inDrawingSession) {
+            for (let i = 0; i < points.length - 1; i++) {
+                await timeout(speed);
+                await drawLine(canvas, points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
+            }
+
             await timeout(speed);
-            await drawLine(canvas, points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
+            await drawLine(canvas, points[points.length - 1].x, points[points.length - 1].y, points[0].x, points[0].y);
+
+            polygonDrawn = true;
+            addPoint = false;
+            addExtPoint = false;
         }
+    }
 
-        await timeout(speed);
-        await drawLine(canvas, points[points.length - 1].x, points[points.length - 1].y, points[0].x, points[0].y);
-
+    addExternalPoint.onclick = function () {
+        if (inDrawingSession && !extPointAdded)
+            addExtPoint = true;
         addPoint = false;
     }
 
-    addExternalPoint.onclick = function() {
-        addPoint = false;
-    }
-
-    start.onclick = function() {
+    start.onclick = function () {
         // if 1) orientation_test < 0 : left turn   2) orientation_test = 0 : collinear,   3) orientation_test > 0 : right turn
         function orientation_test(p, q, r) {
             var rez
@@ -89,8 +105,8 @@ window.onload = function() {
                 position_of_closest_point = i
             }
 
-            // go through all points in counterclockwise direction to find 
-            // the superior_margin: the point for which every other point in the points array is situated to the left of the [external_point, superior_margin] right(dreapta)
+        // go through all points in counterclockwise direction to find 
+        // the superior_margin: the point for which every other point in the points array is situated to the left of the [external_point, superior_margin] right(dreapta)
         superior_margin = position_of_closest_point;
         while (orientation_test(external_point, points[superior_margin], points[(superior_margin + 1) % array_length]) <= 0) {
             superior_margin = (superior_margin + 1) % array_length;
