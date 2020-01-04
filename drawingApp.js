@@ -156,19 +156,27 @@ window.onload = function() {
                 inferior_margin = (array_length + inferior_margin - 1) % array_length;
             }
 
-            let line1 = document.querySelector(`#line_${-1}_${position_of_closest_point} line`);
+            let line1 = document.querySelector(`#line_${-1}_${inferior_margin} line`);
             line1.style.stroke = "black";
+
+            // Remove points which are not in the convex hull now
+            index = (inferior_margin + 1) % array_length;
+            while (index != superior_margin) {
+                let point = document.querySelector(`#point_${index}`);
+                canvas.removeChild(point);
+                index = (index + 1) % array_length;
+            }
 
             // form the new array with the external point, superior_margin point, inferior_margin point 
             // and the points situated between superior_margin point and inferior_margin point in counterclockwise direction
             // the new_array will remain sorted by the polar angle
-            index = superior_margin
+            index = superior_margin;
             new_array.push(points[index])
             while (index != inferior_margin) {
-                index = (index + 1) % array_length
+                index = (index + 1) % array_length;
                 new_array.push(points[index])
             }
-            new_array.push(external_point)
+            new_array.push(external_point);
 
             inDrawingSession = false;
         }
