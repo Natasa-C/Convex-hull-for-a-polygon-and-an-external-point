@@ -9,9 +9,9 @@ window.onload = function() {
     const sideNavWidth = 257;
     const headerHeight = 104;
     const speed = 250;
-    const r = 5;
-    const cx = 5;
-    const cy = 5;
+    const r = 10;
+    const cx = 10;
+    const cy = 10;
     let addPoint = false;
     let addExtPoint = false;
     let extPointAdded = false;
@@ -82,7 +82,7 @@ window.onload = function() {
             var superior_margin, inferior_margin;
             var index, new_array = [];
             let point_speed = 250;
-            let line_speed = 300;
+            let line_speed = 500;
 
             // sort points by the polar angle
             // ..........
