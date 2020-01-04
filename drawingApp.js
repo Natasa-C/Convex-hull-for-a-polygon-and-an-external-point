@@ -156,7 +156,8 @@ window.onload = function() {
                 inferior_margin = (array_length + inferior_margin - 1) % array_length;
             }
 
-            canvas.removeChild(document.querySelector(`#line_${-1}_${position_of_closest_point}`));
+            let line1 = document.querySelector(`#line_${-1}_${position_of_closest_point} line`);
+            line1.style.stroke = "black";
 
             // form the new array with the external point, superior_margin point, inferior_margin point 
             // and the points situated between superior_margin point and inferior_margin point in counterclockwise direction
