@@ -54,6 +54,55 @@ window.onload = function() {
     }
 
     drawPolygon.onclick = async function() {
+        // var mesaj = "";
+        // for (var i = 0; i < points.length; i++){
+        //     mesaj = mesaj + i + " " + points[i].x + " " + points[i].y + " ";
+        // }
+        // alert(mesaj);
+        // ///New spot
+        var start;
+        var index = Left_index(points);//Cauta cel mai din stanga punct, e un pic deraiat fiind intors Oy, dar merge binisor
+        var lowest_point = points[index];
+        sorted_points = []
+        sorted_points.push(lowest_point);//Adaug puncyul gasit mai sus
+        if (points[0] == lowest_point){
+            sorted_points.push(points[1]);
+            start = 2;
+        }
+        else{
+            sorted_points.push(points[0]);
+            start = 1;
+        }                               //Mai adaug un punct ca sa pot compara
+       
+        for (var i = start; i < points.length; i++){
+            if (points[i] != lowest_point){
+                for (var j = sorted_points.length - 1; j > 0; j = j - 1){
+                    if (solve_det(lowest_point, sorted_points[j], points[i]) < 0 && j == 1){  //daca det(p,q,r) < 0 inseamna punctul R e in dreapta lui PQ
+                        sorted_points.splice(j, 0, points[i]);                                //Adaug in vectorul de puncte sortate
+                        break;
+                    }
+                    else if (solve_det(lowest_point, sorted_points[j], points[i]) > 0){       //.................>0.......................in stanga......
+                        sorted_points.splice(j + 1, 0, points[i]);
+                        break;
+                    }
+                    else if (solve_det(lowest_point, sorted_points[j], points[i]) < 0 && solve_det(lowest_point, sorted_points[j - 1], points[i]) > 0){
+                        sorted_points.splice(j, 0, points[i]);                                //Pun intre ele puntul meu
+                        break;
+                    }
+                   
+                        
+                }
+            }
+        }
+        points.length = 0;
+        points = points.concat(sorted_points);
+        points.reverse();   // Dau reverse ca sa mi le puna in ordine trigonometrica
+        // var mesaj = "";
+        // for (var i = 0; i < points.length; i++){
+        //     mesaj = mesaj + i + " " + points[i].x + " " + points[i].y + " ";
+        // }
+        // alert(mesaj);
+
         if (inDrawingSession) {
             for (let i = 0; i < points.length - 1; i++) {
                 await timeout(speed);
@@ -68,7 +117,6 @@ window.onload = function() {
             addExtPoint = false;
         }
     }
-
     addExternalPoint.onclick = function() {
         if (inDrawingSession && !extPointAdded)
             addExtPoint = true;
@@ -275,4 +323,43 @@ function distance(a, b) {
     return new Promise(resolve => {
         resolve((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
     });
+}
+
+function solve_det(p, q, r){
+    det = 1 * q.x * r.y + 1 * r.x * p.y + 1 * p.x * q.y - 1 * q.x * p.y - 1 * p.x * r.y - 1 * r.x * q.y;
+    return det;
+}
+
+function find_lowest_point(points){
+    min_x = points[0].x;
+    min_y = points[0].y;
+    for (var i = 1; i < points.length; i++){
+        if (points[i].y > min_y){
+            min_x = points[i].x;
+            min_y = points[i].y;
+        }
+
+        else if (points[i].y == min_y){
+            if (points[i].x < min_x)
+                min_x = points[i].x;
+        }
+    }
+    let lowest_point = new Point(min_x, min_y);
+    return lowest_point;
+}
+
+
+function Left_index(points){
+    var minn = 0;
+    for (i = 0; i < points.length; i++){
+        if (points[i].x < points[minn].x){
+                minn = i;
+        }
+        else if (points[i].x == points[minn].x){
+            if (points[i].y > points[minn].y)
+                minn = i ;
+        }
+
+    }
+    return minn;
 }
