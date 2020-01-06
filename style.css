@@ -228,8 +228,8 @@ footer p {
 
 .lineBox {
     position: absolute;
-    width: 1443.5px;
-    height: 881px; 
+    width: 100%;
+    height: 100%; 
     
 }
 
