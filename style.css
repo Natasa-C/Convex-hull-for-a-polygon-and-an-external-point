@@ -209,10 +209,9 @@ footer p {
 
 #drawingCanvas {
     position: absolute;
-    /* height: 100%;
-    width: 100%; */
-    height: calc(100% - 100px);
-    width: calc(100% - 64px - 5% - 250px);
+    height: 100%;
+    width: 100%;
+
 }
 
 .circleBox {
