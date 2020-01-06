@@ -37,12 +37,33 @@
     <div id="container" class="container">
         <div id="canvas" class="canvas">
             <div id="About" class="tabcontent">
-                <h3>Computation Geometry Project</h3>
-                <p>Being given a convex polygon and an exterior point, find the convex hull of their reunionaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.</p>
+                <h3>Proiect geometrie computationala</h3>
+                <h4>Cerinta:</h4>
+                <p>Fiind dat un poligon convex, sa se gaseasca acoperirea convexa a reuniunii lor.</p>
+                <h4>Echipa:</h4>
+                <ul>
+                    <li>Andronic Alexandra</li>
+                    <li>Cirstea Madalina</li>
+                    <li>Cirstea Natasa</li>
+                    <li>Puiu Ana Maria</li>
+                </ul>
             </div>
             <div id="Algorithm" class="tabcontent">
-                <h3>How does the algorithm work?</h3>
-                <p>...</p>
+                <h3>Cum functioneaza algoritmul?</h3>
+                <ul>
+                    <li>Se gaseste mai intai cel mai apropiat punct din poligon fata de punctul exterior.</li>
+                    <li>Se parcurg in sens trigonometric punctele pentru a gasi marginea superioara.</li>
+                    <li>Se parcurg in sens trigonometric punctele pentru a gasi marginea inferioara.</li>
+                    <li>Se adauga in noul set de puncte punctul exterior, marginea superioara, cea inferioara si punctele dintre acestea in sens trigonometric.</li>
+                </ul>
+                <h3>Cum rulez?</h3>
+                <ul>
+                    <li>Creez o sesiune.</li>
+                    <li>Adaug punctele din poligon. </li>
+                    <li>Adaug punctul exterior.</li>
+                    <li>Desenez poligonul. </li>
+                    <li>Dau play.</li>
+                </ul>
             </div>
             <div id="drawingCanvas"></div>
         </div>
@@ -62,9 +83,6 @@
             
             <div class="details" id="startDetails">Start</div>
             <button class="utilityButtons" id="start"><img src="Images/start.png"></button>
-
-            <div class="details" id="pauseDetails">Pause</div>
-            <button class="utilityButtons" id="pause"><img src="Images/pause.png"></button>
 
         </div>
     </div>
