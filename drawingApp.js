@@ -150,12 +150,18 @@ window.onload = function() {
                 await timeout(line_speed);
 
                 canvas.removeChild(document.querySelector(`#line_${(array_length + inferior_margin - 1) % array_length}_${inferior_margin}`));
-                canvas.removeChild(document.querySelector(`#line_${-1}_${inferior_margin}`));
-                await timeout(line_speed);
+                if (inferior_margin != superior_margin) {
+                    canvas.removeChild(document.querySelector(`#line_${-1}_${inferior_margin}`));
+                } else {
+                    await timeout(line_speed);
+                    document.querySelector(`#line_${-1}_${inferior_margin} line`).style.stroke = "black";
+                }
 
+                await timeout(line_speed);
                 inferior_margin = (array_length + inferior_margin - 1) % array_length;
             }
 
+            await timeout(line_speed);
             let line1 = document.querySelector(`#line_${-1}_${inferior_margin} line`);
             line1.style.stroke = "black";
 
