@@ -15,7 +15,7 @@ Given a convex polygon and a point outside it, find the convex hull of all the p
 - The points are traversed in trigonometric sense to find the lower edge.
 - In the new set of points we add the outer point, the upper edge, the lower edge and the points between them in the trigonometric sense.
 
-### How do I run the program?
+### How to run the program?
 - Create a session.
 - Add the points of the polygon.
 - Add the the external point.
