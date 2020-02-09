@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://fonts.googleapis.com/css?family=Inria+Serif&display=swap" rel="stylesheet">
     <link href="stil.css" type="text/css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css"> 
+    <link rel="stylesheet" href="style.css">
     <script src="app.js"></script>
     <script src="drawingApp.js"></script>
     <title>Geometry</title>
@@ -26,7 +26,7 @@
             </div>
         </label>
 
-        <h1>Acoperiri convexe</h1>
+        <h1>Convex hull</h1>
     </header>
 
     <div id="mysidenav" class="sidenav">
@@ -37,10 +37,10 @@
     <div id="container" class="container">
         <div id="canvas" class="canvas">
             <div id="About" class="tabcontent">
-                <h3>Proiect geometrie computationala</h3>
-                <h4>Cerinta:</h4>
-                <p>Fiind dat un poligon convex, sa se gaseasca acoperirea convexa a reuniunii lor.</p>
-                <h4>Echipa:</h4>
+                <h3>Computational geometry project</h3>
+                <h4>Requirement:</h4>
+                <p>Given a convex polygon and a point outside it, find the convex hull of all the points.</p>
+                <h4>Team:</h4>
                 <ul>
                     <li>Andronic Alexandra</li>
                     <li>Cirstea Madalina</li>
@@ -49,20 +49,21 @@
                 </ul>
             </div>
             <div id="Algorithm" class="tabcontent">
-                <h3>Cum functioneaza algoritmul?</h3>
+                <h3>How does the algorithm work?</h3>
                 <ul>
-                    <li>Se gaseste mai intai cel mai apropiat punct din poligon fata de punctul exterior.</li>
-                    <li>Se parcurg in sens trigonometric punctele pentru a gasi marginea superioara.</li>
-                    <li>Se parcurg in sens trigonometric punctele pentru a gasi marginea inferioara.</li>
-                    <li>Se adauga in noul set de puncte punctul exterior, marginea superioara, cea inferioara si punctele dintre acestea in sens trigonometric.</li>
+                    <li>Sort the points of the polygon in trigonometric sense.</li>
+                    <li>Find the polygon's closest point to the external point.</li>
+                    <li>The points are traversed in trigonometric sense to find the upper edge.</li>
+                    <li>The points are traversed in trigonometric sense to find the lower edge.</li>
+                    <li>In the new set of points we add the outer point, the upper edge, the lower edge and the points between them in the trigonometric sense.</li>
                 </ul>
-                <h3>Cum rulez?</h3>
+                <h3>How do I run the program?</h3>
                 <ul>
-                    <li>Creez o sesiune.</li>
-                    <li>Adaug punctele din poligon. </li>
-                    <li>Adaug punctul exterior.</li>
-                    <li>Desenez poligonul. </li>
-                    <li>Dau play.</li>
+                    <li>Create a session.</li>
+                    <li>Add the points of the polygon.</li>
+                    <li>Add the the external point.</li>
+                    <li>Draw the polygon.</li>
+                    <li>Click Play</li>
                 </ul>
             </div>
             <div id="drawingCanvas"></div>
@@ -80,7 +81,7 @@
 
             <div class="details" id="drawPolygonDetails">Draw polygon</div>
             <button class="utilityButtons" id="drawPolygon"><img src="Images/polygon.png"></button>
-            
+
             <div class="details" id="startDetails">Start</div>
             <button class="utilityButtons" id="start"><img src="Images/start.png"></button>
 
@@ -88,7 +89,7 @@
     </div>
 
     <footer>
-        <p>Facultatea de Matematica si Informatica</p>
+
     </footer>
 
 </body>
