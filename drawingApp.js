@@ -55,72 +55,74 @@ window.onload = function() {
     }
 
     drawPolygon.onclick = async function() {
-        // first, sort points in the array by the polar angle
-        // find the leftmost point in the points array and then sort the ramining points by the polar angle 
-        var start;
-        var index = Left_index(points);
-        var lowest_point = points[index];
+        if (!polygonDrawn && inDrawingSession) {
+            // first, sort points in the array by the polar angle
+            // find the leftmost point in the points array and then sort the ramining points by the polar angle 
+            var start;
+            var index = Left_index(points);
+            var lowest_point = points[index];
 
-        sorted_points = []
-        sorted_points.push(lowest_point); // add the leftmost point
+            sorted_points = []
+            sorted_points.push(lowest_point); // add the leftmost point
 
-        if (points[0] == lowest_point) {
-            sorted_points.push(points[1]);
-            start = 2;
-        } else {
-            sorted_points.push(points[0]);
-            start = 1;
-        } // add onether point, different from the leftmost one, so that we can make comparisons
+            if (points[0] == lowest_point) {
+                sorted_points.push(points[1]);
+                start = 2;
+            } else {
+                sorted_points.push(points[0]);
+                start = 1;
+            } // add onether point, different from the leftmost one, so that we can make comparisons
 
-        for (var i = start; i < points.length; i++) {
-            if (points[i] != lowest_point) {
-                // det(p,q,r) < 0 means that the R point is to the right of PQ
-                // det(p,q,r) > 0 means that the R point is to the left of PQ
+            for (var i = start; i < points.length; i++) {
+                if (points[i] != lowest_point) {
+                    // det(p,q,r) < 0 means that the R point is to the right of PQ
+                    // det(p,q,r) > 0 means that the R point is to the left of PQ
 
-                for (var j = sorted_points.length - 1; j > 0; j = j - 1) {
-                    if (solve_det(lowest_point, sorted_points[j], points[i]) < 0 && j == 1) {
-                        sorted_points.splice(j, 0, points[i]); // add point in the sorted array before point at the j index
-                        break;
-                    } else if (solve_det(lowest_point, sorted_points[j], points[i]) > 0) {
-                        sorted_points.splice(j + 1, 0, points[i]); // add point in the sorted array after point at the j index
-                        break;
-                    } else if (solve_det(lowest_point, sorted_points[j], points[i]) < 0 && solve_det(lowest_point, sorted_points[j - 1], points[i]) > 0) {
-                        sorted_points.splice(j, 0, points[i]); // add point in the sorted array before point at the j index and after point at the j-1 index
-                        break;
+                    for (var j = sorted_points.length - 1; j > 0; j = j - 1) {
+                        if (solve_det(lowest_point, sorted_points[j], points[i]) < 0 && j == 1) {
+                            sorted_points.splice(j, 0, points[i]); // add point in the sorted array before point at the j index
+                            break;
+                        } else if (solve_det(lowest_point, sorted_points[j], points[i]) > 0) {
+                            sorted_points.splice(j + 1, 0, points[i]); // add point in the sorted array after point at the j index
+                            break;
+                        } else if (solve_det(lowest_point, sorted_points[j], points[i]) < 0 && solve_det(lowest_point, sorted_points[j - 1], points[i]) > 0) {
+                            sorted_points.splice(j, 0, points[i]); // add point in the sorted array before point at the j index and after point at the j-1 index
+                            break;
+                        }
                     }
                 }
             }
-        }
 
-        // copy the sorted points array in the original array of points, using reverse to put them in trigonometric order
-        points.length = 0;
-        points = points.concat(sorted_points);
-        points.reverse();
+            // copy the sorted points array in the original array of points, using reverse to put them in trigonometric order
+            points.length = 0;
+            points = points.concat(sorted_points);
+            points.reverse();
 
-        // second, draw the polygon's lines
-        if (inDrawingSession) {
-            // remove the points in the old order and add the ones in the new order, to make their id correspond with their position in the sorted array
-            for (let i = 0; i < points.length; i++) {
-                let point = document.querySelector(`#point_${i}`);
-                canvas.removeChild(point);
-            }
+            // second, draw the polygon's lines
+            if (inDrawingSession) {
+                // remove the points in the old order and add the ones in the new order, to make their id correspond with their position in the sorted array
+                for (let i = 0; i < points.length; i++) {
+                    let point = document.querySelector(`#point_${i}`);
+                    canvas.removeChild(point);
+                }
 
-            for (let i = 0; i < points.length; i++) {
-                drawPoint(canvas, points[i].x, points[i].y, r, cx, cy, "black", i);
-            }
+                for (let i = 0; i < points.length; i++) {
+                    drawPoint(canvas, points[i].x, points[i].y, r, cx, cy, "black", i);
+                }
 
-            for (let i = 0; i < points.length - 1; i++) {
+                for (let i = 0; i < points.length - 1; i++) {
+                    await timeout(speed);
+                    await drawLine(canvas, points[i].x, points[i].y, points[i + 1].x, points[i + 1].y, `${i}_${i + 1}`);
+                }
+
                 await timeout(speed);
-                await drawLine(canvas, points[i].x, points[i].y, points[i + 1].x, points[i + 1].y, `${i}_${i + 1}`);
+                await drawLine(canvas, points[points.length - 1].x, points[points.length - 1].y, points[0].x, points[0].y, `${points.length - 1}_${0}`);
+
+                // after the polygon is drawn no other point of the polygon can be added
+                polygonDrawn = true;
+                addPoint = false;
+                addExtPoint = false;
             }
-
-            await timeout(speed);
-            await drawLine(canvas, points[points.length - 1].x, points[points.length - 1].y, points[0].x, points[0].y, `${points.length - 1}_${0}`);
-
-            // after the polygon is drawn no other point of the polygon can be added
-            polygonDrawn = true;
-            addPoint = false;
-            addExtPoint = false;
         }
     }
 
