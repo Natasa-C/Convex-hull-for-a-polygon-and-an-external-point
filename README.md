@@ -5,7 +5,7 @@
 ### Link
 [https://convex-hull-for-a-polygon.herokuapp.com/index.html](https://convex-hull-for-a-polygon.herokuapp.com/index.html)
 
-### Requirement:
+### Requirement
 Given a convex polygon and a point outside it, find the convex hull of all the points.
 
 ### How does the algorithm work?
