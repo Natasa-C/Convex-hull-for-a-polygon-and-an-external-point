@@ -9,9 +9,10 @@ window.onload = function() {
     const sideNavWidth = 257;
     const headerHeight = 104;
     const speed = 250;
-    const r = 10;
-    const cx = 10;
-    const cy = 10;
+    const r = 7.5;
+    const cx = 7.5;
+    const cy = 7.5;
+
     let addPoint = false;
     let addExtPoint = false;
     let extPointAdded = false;
@@ -35,6 +36,7 @@ window.onload = function() {
     }
 
     canvas.onclick = function(event) {
+        // add one black point (polygon point) or one red point (external point)
         if (inDrawingSession) {
             let x = event.clientX - sideNavWidth;
             let y = event.clientY - headerHeight;
@@ -43,10 +45,9 @@ window.onload = function() {
                 points.push(new Point(x, y));
                 drawPoint(canvas, x, y, r, cx, cy, "black", points.length - 1);
             } else if (addExtPoint) {
-                let x = event.clientX - sideNavWidth;
-                let y = event.clientY - headerHeight;
                 external_point = new Point(x, y);
                 drawPoint(canvas, x, y, r, cx, cy, "red", -1);
+                // only one external point can be added
                 extPointAdded = true;
                 addExtPoint = false;
             }
@@ -54,52 +55,51 @@ window.onload = function() {
     }
 
     drawPolygon.onclick = async function() {
-        // var mesaj = "";
-        // for (var i = 0; i < points.length; i++){
-        //     mesaj = mesaj + i + " " + points[i].x + " " + points[i].y + " ";
-        // }
-        // alert(mesaj);
-        // ///New spot
+        // first, sort points in the array by the polar angle
+        // find the leftmost point in the points array and then sort the ramining points by the polar angle 
         var start;
-        var index = Left_index(points); //Cauta cel mai din stanga punct, e un pic deraiat fiind intors Oy, dar merge binisor
+        var index = Left_index(points);
         var lowest_point = points[index];
+
         sorted_points = []
-        sorted_points.push(lowest_point); //Adaug puncyul gasit mai sus
+        sorted_points.push(lowest_point); // add the leftmost point
+
         if (points[0] == lowest_point) {
             sorted_points.push(points[1]);
             start = 2;
         } else {
             sorted_points.push(points[0]);
             start = 1;
-        } //Mai adaug un punct ca sa pot compara
+        } // add onether point, different from the leftmost one, so that we can make comparisons
 
         for (var i = start; i < points.length; i++) {
             if (points[i] != lowest_point) {
+                // det(p,q,r) < 0 means that the R point is to the right of PQ
+                // det(p,q,r) > 0 means that the R point is to the left of PQ
+
                 for (var j = sorted_points.length - 1; j > 0; j = j - 1) {
-                    if (solve_det(lowest_point, sorted_points[j], points[i]) < 0 && j == 1) { //daca det(p,q,r) < 0 inseamna punctul R e in dreapta lui PQ
-                        sorted_points.splice(j, 0, points[i]); //Adaug in vectorul de puncte sortate
+                    if (solve_det(lowest_point, sorted_points[j], points[i]) < 0 && j == 1) {
+                        sorted_points.splice(j, 0, points[i]); // add point in the sorted array before point at the j index
                         break;
-                    } else if (solve_det(lowest_point, sorted_points[j], points[i]) > 0) { //.................>0.......................in stanga......
-                        sorted_points.splice(j + 1, 0, points[i]);
+                    } else if (solve_det(lowest_point, sorted_points[j], points[i]) > 0) {
+                        sorted_points.splice(j + 1, 0, points[i]); // add point in the sorted array after point at the j index
                         break;
                     } else if (solve_det(lowest_point, sorted_points[j], points[i]) < 0 && solve_det(lowest_point, sorted_points[j - 1], points[i]) > 0) {
-                        sorted_points.splice(j, 0, points[i]); //Pun intre ele puntul meu
+                        sorted_points.splice(j, 0, points[i]); // add point in the sorted array before point at the j index and after point at the j-1 index
                         break;
                     }
                 }
             }
         }
+
+        // copy the sorted points array in the original array of points, using reverse to put them in trigonometric order
         points.length = 0;
         points = points.concat(sorted_points);
-        points.reverse(); // Dau reverse ca sa mi le puna in ordine trigonometrica
-        // var mesaj = "";
-        // for (var i = 0; i < points.length; i++){
-        //     mesaj = mesaj + i + " " + points[i].x + " " + points[i].y + " ";
-        // }
-        // alert(mesaj);
+        points.reverse();
 
-
+        // second, draw the polygon's lines
         if (inDrawingSession) {
+            // remove the points in the old order and add the ones in the new order, to make their id correspond with their position in the sorted array
             for (let i = 0; i < points.length; i++) {
                 let point = document.querySelector(`#point_${i}`);
                 canvas.removeChild(point);
@@ -117,6 +117,7 @@ window.onload = function() {
             await timeout(speed);
             await drawLine(canvas, points[points.length - 1].x, points[points.length - 1].y, points[0].x, points[0].y, `${points.length - 1}_${0}`);
 
+            // after the polygon is drawn no other point of the polygon can be added
             polygonDrawn = true;
             addPoint = false;
             addExtPoint = false;
@@ -138,10 +139,8 @@ window.onload = function() {
             let point_speed = 250;
             let line_speed = 500;
 
-            // sort points by the polar angle
-            // ..........
 
-            // find the point, in the points array, which is closest to the external point
+            // find the point, in the points array, the point which is closest to the external point
             let point = document.querySelector(`#point_${0} #circle circle`);
             point.style.fill = "green"
             await timeout(point_speed);
