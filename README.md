@@ -1,4 +1,4 @@
-# Computation Geometry Project
+# Convex hull for a polygon and an external point
 
 ### A visual representation of an algorithm which finds the convex hull for a given convex polygon and a point outside it.
 
