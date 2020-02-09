@@ -21,3 +21,9 @@ Given a convex polygon and a point outside it, find the convex hull of all the p
 - Add the the external point.
 - Draw the polygon.
 - Click Play
+
+### Tools
+- HTML - for creating the structure of the web pages and the animations that are displayed
+- Javascript - for the algorithm implementation
+- CSS - for designing the style in which elements are to be displayed on the screen
+- Heroku - for hosting the website
