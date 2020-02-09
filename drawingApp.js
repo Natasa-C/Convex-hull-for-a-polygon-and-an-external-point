@@ -239,6 +239,11 @@ window.onload = function() {
             }
             new_array.push(external_point);
 
+            for (let i = 0; i < points.length; i++) {
+                let point = document.querySelector(`#point_${i} #circle circle`);
+                point.style.fill = "black"
+            }
+
             inDrawingSession = false;
         }
     }
