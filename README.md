@@ -27,3 +27,8 @@ Given a convex polygon and a point outside it, find the convex hull of all the p
 - Javascript - for the algorithm implementation
 - CSS - for designing the style in which elements are to be displayed on the screen
 - Heroku - for hosting the website
+
+### Team
+- [Ana Puiu](https://github.com/AMAPuiu)
+- [Natasa Cirstea](https://github.com/Natasa-C) 
+- [Madalina Cirstea](https://github.com/madalina-cirstea)
