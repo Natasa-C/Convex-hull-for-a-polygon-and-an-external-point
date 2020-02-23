@@ -1,6 +1,6 @@
 # Convex hull for a polygon and an external point
 
-### A visual representation of an algorithm which finds the convex hull for a given convex polygon and a point outside it.
+#### A visual representation of an algorithm which finds the convex hull for a given convex polygon and a point outside it.
 
 ### Link
 [https://convex-hull-for-a-polygon.herokuapp.com/index.html](https://convex-hull-for-a-polygon.herokuapp.com/index.html)
@@ -23,10 +23,10 @@ Given a convex polygon and a point outside it, find the convex hull of all the p
 - Click Play
 
 ### Tools
-- HTML - for creating the structure of the web pages and the animations that are displayed
-- Javascript - for the algorithm implementation
-- CSS - for designing the style in which elements are to be displayed on the screen
-- Heroku - for hosting the website
+- ***HTML*** - for creating the structure of the web pages and the animations that are displayed
+- ***Javascript*** - for the algorithm implementation
+- ***CSS*** - for designing the style in which elements are to be displayed on the screen
+- ***Heroku*** - for the hosting and deployment of the website
 
 ### Project done in collaboration with:
 - [Alexandra Andronic](https://github.com/andronicaa)
