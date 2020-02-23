@@ -31,4 +31,4 @@ Given a convex polygon and a point outside it, find the convex hull of all the p
 ### Project done in collaboration with:
 - [Alexandra Andronic](https://github.com/andronicaa)
 - [Ana Puiu](https://github.com/AMAPuiu)
-- [Natasa Cirstea](https://github.com/Natasa-C) 
+- [Madalina Cirstea](https://github.com/madalina-cirstea) 
